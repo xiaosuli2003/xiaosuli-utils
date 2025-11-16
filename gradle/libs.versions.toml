@@ -1,0 +1,18 @@
+[versions]
+kotlin = "2.2.20"
+ktor = "3.2.3"
+kotlinx-serialization-json = "1.9.0"
+lettuce-core = "6.3.2.RELEASE"
+
+[libraries]
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+lettuce-core = { module = "io.lettuce:lettuce-core", version.ref = "lettuce-core" }
+ktor-server-core = { module = "io.ktor:ktor-server-core" }
+ktor-server-request-validation = { module = "io.ktor:ktor-server-request-validation" }  # 请求参数校验
+
+[bundles]
+
+[plugins]
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
