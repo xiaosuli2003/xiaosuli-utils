@@ -1,10 +1,15 @@
+@file:Suppress("unused")
+
 package cn.xiaosuli.utils.redis.lettuce
 
 import io.lettuce.core.ExperimentalLettuceCoroutinesApi
 import io.lettuce.core.api.coroutines.RedisCoroutinesCommands
 import kotlinx.serialization.json.Json
 
-val DefaultJson = Json { encodeDefaults = true; ignoreUnknownKeys = true }
+val DefaultJson = Json {
+    // 设置不序列化值为 null 的属性
+    explicitNulls = false
+}
 
 @OptIn(ExperimentalLettuceCoroutinesApi::class)
 suspend fun <T : Any> RedisCoroutinesCommands<String, String>.get(key: RedisKey<T>): T? {

@@ -11,6 +11,8 @@ plugins {
 }
 
 
+include(":xiaosuli-exposed-postgresql")
+include(":xiaosuli-kotlin-serialization")
 include(":xiaosuli-ktor")
 include(":xiaosuli-redis-lettuce")
 

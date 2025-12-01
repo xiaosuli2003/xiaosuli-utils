@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package cn.xiaosuli.utils.ktor
 
 import io.ktor.server.config.*

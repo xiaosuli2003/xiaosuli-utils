@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.lettuce.core)
     testImplementation(libs.kotlin.test)
 }

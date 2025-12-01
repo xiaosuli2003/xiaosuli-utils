@@ -1,14 +1,23 @@
 [versions]
 kotlin = "2.2.20"
-ktor = "3.2.3"
+ktor = "3.3.3"
 kotlinx-serialization-json = "1.9.0"
-lettuce-core = "6.3.2.RELEASE"
+lettuce-core = "7.1.0.RELEASE"
+schema-kenerator-swagger = "2.5.0"
+exposed = "1.0.0-rc-3"
+postgresql = "42.7.8"
+kotlinx-datetime="0.7.1-0.6.x-compat"
 
 [libraries]
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 lettuce-core = { module = "io.lettuce:lettuce-core", version.ref = "lettuce-core" }
-ktor-server-core = { module = "io.ktor:ktor-server-core" }
-ktor-server-request-validation = { module = "io.ktor:ktor-server-request-validation" }  # 请求参数校验
+ktor-server-core = { module = "io.ktor:ktor-server-core" ,version.ref="ktor"}
+ktor-server-request-validation = { module = "io.ktor:ktor-server-request-validation" ,version.ref="ktor"}  # 请求参数校验
+schema-kenerator-swagger = { module = "io.github.smiley4:schema-kenerator-swagger", version.ref = "schema-kenerator-swagger" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 [bundles]
 
@@ -16,3 +25,4 @@ ktor-server-request-validation = { module = "io.ktor:ktor-server-request-validat
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+mavenPublish = { id = "maven-publish" }

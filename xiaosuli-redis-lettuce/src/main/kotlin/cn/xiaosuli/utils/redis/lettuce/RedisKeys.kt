@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package cn.xiaosuli.utils.redis.lettuce
 
 import kotlinx.serialization.KSerializer
