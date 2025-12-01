@@ -1,13 +1,15 @@
 # xiaosuli-utils
 
-一个现代化的 Kotlin 工具库集合，提供实用的扩展函数和工具类，帮助开发者更高效地构建 Kotlin 应用程序。
+由[xiaosuli](https://github.com/xiaosuli2003)出品的一个现代化的 Kotlin 工具库集合，提供实用的扩展函数和工具类，帮助开发者更高效地构建 Kotlin 应用程序。
 
 ## 📦 模块概览
 
 | 模块 | 版本 | 描述 |
 |------|------|------|
-| [xiaosuli-ktor](./xiaosuli-ktor/README.md) | 0.0.1-SNAPSHOT | Ktor 框架的实用扩展工具 |
-| [xiaosuli-redis-lettuce](./xiaosuli-redis-lettuce/README.md) | 0.0.1-SNAPSHOT | Lettuce Redis 客户端的类型安全扩展 |
+| [xiaosuli-ktor](./xiaosuli-ktor/README.md) | 1.0.0 | Ktor 框架的实用扩展工具 |
+| [xiaosuli-redis-lettuce](./xiaosuli-redis-lettuce/README.md) | 1.0.0 | Lettuce Redis 客户端的类型安全扩展 |
+| [xiaosuli-exposed-postgresql](./xiaosuli-exposed-postgresql/README.md) | 1.0.0 | Exposed ORM 的 PostgreSQL 类型扩展 |
+| [xiaosuli-kotlin-serialization](./xiaosuli-kotlin-serialization/README.md) | 1.0.0 | Kotlin Serialization 的实用序列化器扩展 |
 
 ## 🚀 快速开始
 
@@ -33,15 +35,28 @@ cd xiaosuli-utils
 
 ### 使用特定模块
 
+> **⚠️ 注意（重要）：** 本系列工具库目前尚未发布到 Maven 中央仓库，需要自己下载源码并编译到本地 Maven 仓库后使用。等待后续会上传到 Maven 中央仓库，但目前不是。
+
+编译到本地 Maven 仓库：
+```bash
+./gradlew publishToMavenLocal
+```
+
 在您的 `build.gradle.kts` 中添加依赖：
 
 ```kotlin
 dependencies {
     // Ktor 扩展模块
-    implementation("cn.xiaosuli.utils:xiaosuli-ktor:0.0.1-SNAPSHOT")
+    implementation("cn.xiaosuli.utils:xiaosuli-ktor:1.0.0")
     
     // Redis Lettuce 扩展模块
-    implementation("cn.xiaosuli.utils:xiaosuli-redis-lettuce:0.0.1-SNAPSHOT")
+    implementation("cn.xiaosuli.utils:xiaosuli-redis-lettuce:1.0.0")
+    
+    // Exposed PostgreSQL 扩展模块
+    implementation("cn.xiaosuli.utils:xiaosuli-exposed-postgresql:1.0.0")
+    
+    // Kotlin Serialization 扩展模块
+    implementation("cn.xiaosuli.utils:xiaosuli-kotlin-serialization:1.0.0")
 }
 ```
 
@@ -62,21 +77,41 @@ dependencies {
 - **协程扩展**: 支持 Kotlin 协程的异步操作
 - **JSON 序列化**: 基于 Kotlinx Serialization 的对象序列化
 
+### xiaosuli-exposed-postgresql
+
+提供 Exposed ORM 框架的 PostgreSQL 类型扩展：
+
+- **INET 类型支持**: 为 PostgreSQL 的 INET 网络地址类型提供扩展支持
+- **类型安全**: 编译时类型检查的列定义
+
+### xiaosuli-kotlin-serialization
+
+提供 Kotlinx Serialization 的实用序列化器：
+
+- **LocalDateTime 序列化**: 将 Kotlin LocalDateTime 序列化为标准格式字符串
+- **类型安全**: 编译时类型检查的序列化支持
+
 ## 🛠️ 开发指南
 
 ### 项目结构
 
 ```
 xiaosuli-utils/
-├── xiaosuli-ktor/          # Ktor 扩展模块
+├── xiaosuli-ktor/              # Ktor 扩展模块
 │   ├── src/main/kotlin/
 │   └── build.gradle.kts
-├── xiaosuli-redis-lettuce/ # Redis 扩展模块
+├── xiaosuli-redis-lettuce/     # Redis 扩展模块
 │   ├── src/main/kotlin/
 │   └── build.gradle.kts
-├── build.gradle.kts        # 根项目构建配置
-├── settings.gradle.kts     # 项目设置
-└── README.md              # 项目说明
+├── xiaosuli-exposed-postgresql/ # PostgreSQL 扩展模块
+│   ├── src/main/kotlin/
+│   └── build.gradle.kts
+├── xiaosuli-kotlin-serialization/ # 序列化扩展模块
+│   ├── src/main/kotlin/
+│   └── build.gradle.kts
+├── build.gradle.kts            # 根项目构建配置
+├── settings.gradle.kts         # 项目设置
+└── README.md                  # 项目说明
 ```
 
 ### 添加新模块

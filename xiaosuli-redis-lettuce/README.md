@@ -4,11 +4,18 @@
 
 ## 📦 安装
 
+> **⚠️ 注意（重要）：** 本系列工具库目前尚未发布到 Maven 中央仓库，需要自己下载源码并编译到本地 Maven 仓库后使用。等待后续会上传到 Maven 中央仓库，但目前不是。
+
+编译到本地 Maven 仓库：
+```bash
+./gradlew publishToMavenLocal
+```
+
 在您的 `build.gradle.kts` 中添加依赖：
 
 ```kotlin
 dependencies {
-    implementation("cn.xiaosuli.utils:xiaosuli-redis-lettuce:0.0.1-SNAPSHOT")
+    implementation("cn.xiaosuli.utils:xiaosuli-redis-lettuce:1.0.0")
 }
 ```
 
@@ -263,12 +270,12 @@ suspend fun main() {
 
 ### 序列化配置
 
-库使用默认的 JSON 序列化配置：
+库使用默认的 JSON 序列化配置，设置不序列化值为 null 的属性：
 
 ```kotlin
-val DefaultJson = Json { 
-    encodeDefaults = true
-    ignoreUnknownKeys = true 
+val DefaultJson = Json {
+    // 设置不序列化值为 null 的属性
+    explicitNulls = false
 }
 ```
 

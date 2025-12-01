@@ -1,14 +1,21 @@
 # xiaosuli-ktor
 
-Ktor 框架的实用扩展工具库，提供便捷的配置读取和请求验证功能。
+Ktor 框架的实用扩展工具库，提供便捷的配置读取、请求验证、统一响应格式、HTTP状态码定义和请求参数处理功能。
 
 ## 📦 安装
+
+> **⚠️ 注意（重要）：** 本系列工具库目前尚未发布到 Maven 中央仓库，需要自己下载源码并编译到本地 Maven 仓库后使用。等待后续会上传到 Maven 中央仓库，但目前不是。
+
+编译到本地 Maven 仓库：
+```bash
+./gradlew publishToMavenLocal
+```
 
 在您的 `build.gradle.kts` 中添加依赖：
 
 ```kotlin
 dependencies {
-    implementation("cn.xiaosuli.utils:xiaosuli-ktor:0.0.1-SNAPSHOT")
+    implementation("cn.xiaosuli.utils:xiaosuli-ktor:1.0.0")
 }
 ```
 
@@ -74,6 +81,46 @@ fun validateCreateUserRequest(
         .and(validateSize(username, min = 3, max = 20, "用户名长度必须在3-20位之间"))
         .and(validateNotBlank(email, "邮箱不能为空"))
         .and(validateSize(password, min = 8, max = 20, "密码长度必须在8-20位之间"))
+}
+```
+
+### 统一响应格式
+
+提供标准化的API响应结构和辅助函数，简化响应处理。
+
+```kotlin
+import cn.xiaosuli.utils.ktor.*
+
+// 成功响应
+suspend fun getUser(call: ApplicationCall) {
+    val user = userService.findById(call.parameters["id"]!!)
+    call.respondOk(user)
+}
+
+// 失败响应
+suspend fun deleteUser(call: ApplicationCall) {
+    if (!userService.exists(call.parameters["id"]!!)) {
+        call.respondFail(HttpCode.NotFound, "用户不存在")
+        return
+    }
+    userService.delete(call.parameters["id"]!!)
+    call.respondOk(message = "用户删除成功")
+}
+```
+
+### 请求参数处理
+
+提供将查询参数转换为指定类型的功能，简化参数获取。
+
+```kotlin
+import cn.xiaosuli.utils.ktor.requestQueryParameters
+
+data class SearchParams(val keyword: String, val page: Int, val size: Int)
+
+suspend fun search(call: ApplicationCall) {
+    val params = call.requestQueryParameters<SearchParams>()
+    val results = searchService.search(params.keyword, params.page, params.size)
+    call.respondOk(results)
 }
 ```
 
@@ -144,6 +191,133 @@ fun validateCreateUserRequest(
 
 **返回值:** 合并后的验证结果
 
+### 统一响应
+
+#### `HttpResponse` 类
+
+```kotlin
+@Serializable
+class HttpResponse<T>(
+    val code: Int,
+    val msg: String,
+    val data: T? = null,
+    val timestamp: Long
+)
+```
+
+统一响应结果类，包含状态码、提示信息、数据和时间戳。
+
+**属性:**
+- `code`: HTTP状态码
+- `msg`: 响应消息
+- `data`: 响应数据
+- `timestamp`: 时间戳
+
+#### `R.ok`
+
+创建成功响应结果。
+
+```kotlin
+fun <T> ok(
+    data: T? = null,
+    httpStatus: HttpCode = HttpCode.Success,
+    message: String? = null
+): HttpResponse<T>
+```
+
+**参数:**
+- `data`: 响应数据，可选
+- `httpStatus`: HTTP状态码，默认为成功
+- `message`: 响应消息，可选
+
+**返回值:** HttpResponse实例
+
+#### `R.fail`
+
+创建失败响应结果。
+
+```kotlin
+fun fail(
+    httpStatus: HttpCode,
+    message: String? = null
+): HttpResponse<Unit>
+```
+
+**参数:**
+- `httpStatus`: HTTP状态码
+- `message`: 响应消息，可选
+
+**返回值:** HttpResponse实例
+
+#### `ApplicationCall.respondOk`
+
+直接发送成功响应。
+
+```kotlin
+suspend inline fun <reified T> ApplicationCall.respondOk(
+    data: T? = null,
+    httpStatus: HttpCode = HttpCode.Success,
+    message: String? = null
+)
+```
+
+**参数:**
+- `data`: 响应数据，可选
+- `httpStatus`: HTTP状态码，默认为成功
+- `message`: 响应消息，可选
+
+#### `ApplicationCall.respondFail`
+
+直接发送失败响应。
+
+```kotlin
+suspend fun ApplicationCall.respondFail(
+    httpStatus: HttpCode,
+    message: String? = null
+)
+```
+
+**参数:**
+- `httpStatus`: HTTP状态码
+- `message`: 响应消息，可选
+
+### 请求参数处理
+
+#### `ApplicationCall.requestQueryParameters`
+
+将请求中的查询参数转换为指定类型。
+
+```kotlin
+inline fun <reified T> ApplicationCall.requestQueryParameters(): T
+```
+
+**类型参数:**
+- `T`: 目标类型
+
+**返回值:** 转换后的对象
+
+**异常:**
+- 如果参数缺少或格式错误，抛出BadRequestException
+
+### HTTP状态码枚举
+
+#### `HttpCode`
+
+预定义的HTTP状态码枚举。
+
+```kotlin
+enum class HttpCode(val value: Int, val reasonPhrase: String)
+```
+
+**包含的状态码:**
+- `Success(2233, "操作成功")`: 自定义成功状态码
+- `BadRequest(400, "参数列表错误（缺少，格式不匹配）")`: 请求参数错误
+- `Unauthorized(401, "未授权")`: 未授权访问
+- `Forbidden(403, "访问受限，授权过期")`: 权限不足
+- `NotFound(404, "资源，服务未找到")`: 资源不存在
+- `MethodNotAllowed(405, "不允许的HTTP方法")`: HTTP方法不允许
+- `Error(500, "系统内部错误")`: 服务器内部错误
+
 ## 🔧 使用示例
 
 ### 完整的 Ktor 应用示例
@@ -161,6 +335,18 @@ data class CreateUserRequest(
     val password: String
 )
 
+data class UserResponse(
+    val id: String,
+    val username: String,
+    val email: String
+)
+
+data class SearchParams(
+    val keyword: String,
+    val page: Int = 1,
+    val size: Int = 10
+)
+
 fun Application.module() {
     install(RequestValidation) {
         validate<CreateUserRequest> { request ->
@@ -169,14 +355,48 @@ fun Application.module() {
     }
     
     routing {
+        // 创建用户
         post("/users") {
             val request = call.receive<CreateUserRequest>()
             
             // 配置读取示例
             val maxUsers = application.config.getIntOrDefault("app.maxUsers", 1000)
             
-            // 业务逻辑...
-            call.respond("User created successfully")
+            // 模拟业务逻辑
+            val user = UserResponse("1", request.username, request.email)
+            
+            // 使用统一响应格式
+            call.respondOk(user, message = "用户创建成功")
+        }
+        
+        // 获取用户
+        get("/users/{id}") {
+            val id = call.parameters["id"] ?: return@get call.respondFail(HttpCode.BadRequest, "用户ID不能为空")
+            
+            // 模拟查询用户
+            if (id == "1") {
+                val user = UserResponse("1", "testuser", "test@example.com")
+                call.respondOk(user)
+            } else {
+                call.respondFail(HttpCode.NotFound, "用户不存在")
+            }
+        }
+        
+        // 搜索用户
+        get("/users") {
+            try {
+                // 将查询参数转换为对象
+                val params = call.requestQueryParameters<SearchParams>()
+                
+                // 模拟搜索结果
+                val users = listOf(
+                    UserResponse("1", "testuser", "test@example.com")
+                )
+                
+                call.respondOk(users)
+            } catch (e: Exception) {
+                call.respondFail(HttpCode.BadRequest, "参数错误：${e.message}")
+            }
         }
     }
 }
@@ -196,7 +416,7 @@ private fun validateCreateUserRequest(
 ## 📋 依赖要求
 
 - **Kotlin**: 2.2.20+
-- **Ktor**: 3.2.3+
+- **Ktor**: 3.0.0+
 - **JDK**: 21+
 
 ## 🔗 相关链接
