@@ -2,12 +2,15 @@
 
 package cn.xiaosuli.utils.ktor
 
+import kotlinx.serialization.Serializable
+
 /**
  * HTTP状态码枚举
  *
  * @property value 状态码
  * @property reasonPhrase 状态码描述
  */
+@Serializable
 enum class HttpCode(
     val value: Int,
     val reasonPhrase: String

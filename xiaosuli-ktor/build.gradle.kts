@@ -1,5 +1,5 @@
 plugins {
-    // alias(libs.plugins.ktor)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 dependencies {

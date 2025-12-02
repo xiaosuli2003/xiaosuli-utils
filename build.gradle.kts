@@ -11,7 +11,7 @@ subprojects {
     apply(plugin = "maven-publish")
 
     group = "cn.xiaosuli.utils"
-    version = "1.0.0"
+    version = "1.0.1"
 
     configure<KotlinJvmProjectExtension> {
         // 使用特定的 Java 版本，以便在不同的环境中更方便地进行开发。
