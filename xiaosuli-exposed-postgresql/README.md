@@ -8,14 +8,14 @@ Exposed ORM 框架的 PostgreSQL 类型扩展库，为 PostgreSQL 特有数据�
 
 编译到本地 Maven 仓库：
 ```bash
-./gradlew publishToMavenLocal
+../gradlew :xiaosuli-exposed-postgresql:publishToMavenLocal
 ```
 
 在您的 `build.gradle.kts` 中添加依赖：
 
 ```kotlin
 dependencies {
-    implementation("cn.xiaosuli.utils:xiaosuli-exposed-postgresql:0.0.1-SNAPSHOT")
+    implementation("cn.xiaosuli.utils:xiaosuli-exposed-postgresql:1.0.2")
 }
 ```
 

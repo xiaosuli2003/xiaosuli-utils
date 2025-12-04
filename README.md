@@ -6,10 +6,10 @@
 
 | 模块 | 版本 | 描述 |
 |------|------|------|
-| [xiaosuli-ktor](./xiaosuli-ktor/README.md) | 1.0.0 | Ktor 框架的实用扩展工具 |
-| [xiaosuli-redis-lettuce](./xiaosuli-redis-lettuce/README.md) | 1.0.0 | Lettuce Redis 客户端的类型安全扩展 |
-| [xiaosuli-exposed-postgresql](./xiaosuli-exposed-postgresql/README.md) | 1.0.0 | Exposed ORM 的 PostgreSQL 类型扩展 |
-| [xiaosuli-kotlin-serialization](./xiaosuli-kotlin-serialization/README.md) | 1.0.0 | Kotlin Serialization 的实用序列化器扩展 |
+| [xiaosuli-ktor](./xiaosuli-ktor/README.md) | 1.0.2 | Ktor 框架的实用扩展工具 |
+| [xiaosuli-redis-lettuce](./xiaosuli-redis-lettuce/README.md) | 1.0.2 | Lettuce Redis 客户端的类型安全扩展 |
+| [xiaosuli-exposed-postgresql](./xiaosuli-exposed-postgresql/README.md) | 1.0.2 | Exposed ORM 的 PostgreSQL 类型扩展 |
+| [xiaosuli-kotlin-serialization](./xiaosuli-kotlin-serialization/README.md) | 1.0.2 | Kotlin Serialization 的实用序列化器扩展 |
 
 ## 🚀 快速开始
 
@@ -38,8 +38,25 @@ cd xiaosuli-utils
 > **⚠️ 注意（重要）：** 本系列工具库目前尚未发布到 Maven 中央仓库，需要自己下载源码并编译到本地 Maven 仓库后使用。等待后续会上传到 Maven 中央仓库，但目前不是。
 
 编译到本地 Maven 仓库：
+
+1. **发布所有模块**：
 ```bash
 ./gradlew publishToMavenLocal
+```
+
+2. **发布特定模块**：
+```bash
+# 例如仅发布 xiaosuli-ktor 模块
+./gradlew :xiaosuli-ktor:publishToMavenLocal
+
+# 例如仅发布 xiaosuli-redis-lettuce 模块
+./gradlew :xiaosuli-redis-lettuce:publishToMavenLocal
+
+# 例如仅发布 xiaosuli-exposed-postgresql 模块
+./gradlew :xiaosuli-exposed-postgresql:publishToMavenLocal
+
+# 例如仅发布 xiaosuli-kotlin-serialization 模块
+./gradlew :xiaosuli-kotlin-serialization:publishToMavenLocal
 ```
 
 在您的 `build.gradle.kts` 中添加依赖：
@@ -47,16 +64,16 @@ cd xiaosuli-utils
 ```kotlin
 dependencies {
     // Ktor 扩展模块
-    implementation("cn.xiaosuli.utils:xiaosuli-ktor:1.0.0")
+    implementation("cn.xiaosuli.utils:xiaosuli-ktor:1.0.2")
     
     // Redis Lettuce 扩展模块
-    implementation("cn.xiaosuli.utils:xiaosuli-redis-lettuce:1.0.0")
+    implementation("cn.xiaosuli.utils:xiaosuli-redis-lettuce:1.0.2")
     
     // Exposed PostgreSQL 扩展模块
-    implementation("cn.xiaosuli.utils:xiaosuli-exposed-postgresql:1.0.0")
+    implementation("cn.xiaosuli.utils:xiaosuli-exposed-postgresql:1.0.2")
     
     // Kotlin Serialization 扩展模块
-    implementation("cn.xiaosuli.utils:xiaosuli-kotlin-serialization:1.0.0")
+    implementation("cn.xiaosuli.utils:xiaosuli-kotlin-serialization:1.0.2")
 }
 ```
 

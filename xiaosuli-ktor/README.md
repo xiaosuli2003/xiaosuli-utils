@@ -8,14 +8,14 @@ Ktor 框架的实用扩展工具库，提供便捷的配置读取、请求验证
 
 编译到本地 Maven 仓库：
 ```bash
-./gradlew publishToMavenLocal
+../gradlew :xiaosuli-ktor:publishToMavenLocal
 ```
 
 在您的 `build.gradle.kts` 中添加依赖：
 
 ```kotlin
 dependencies {
-    implementation("cn.xiaosuli.utils:xiaosuli-ktor:1.0.0")
+    implementation("cn.xiaosuli.utils:xiaosuli-ktor:1.0.2")
 }
 ```
 

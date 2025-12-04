@@ -8,14 +8,14 @@ Kotlin Serialization 的实用序列化器扩展库，提供常见类型的自�
 
 编译到本地 Maven 仓库：
 ```bash
-./gradlew publishToMavenLocal
+../gradlew :xiaosuli-kotlin-serialization:publishToMavenLocal
 ```
 
 在您的 `build.gradle.kts` 中添加依赖：
 
 ```kotlin
 dependencies {
-    implementation("cn.xiaosuli.utils:xiaosuli-kotlin-serialization:0.0.1-SNAPSHOT")
+    implementation("cn.xiaosuli.utils:xiaosuli-kotlin-serialization:1.0.2")
 }
 ```
 
