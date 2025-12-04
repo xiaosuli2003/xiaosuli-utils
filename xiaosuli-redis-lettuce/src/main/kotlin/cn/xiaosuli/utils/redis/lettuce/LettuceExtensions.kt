@@ -32,7 +32,7 @@ suspend fun <T : Any> RedisCoroutinesCommands<String, String>.set(
 }
 
 @OptIn(ExperimentalLettuceCoroutinesApi::class)
-suspend fun RedisCoroutinesCommands<String, String>.del(vararg keys: RedisKey<*>) {
-    if (keys.isEmpty()) return
-    this.del(*keys.map { it.key }.toTypedArray())
+suspend fun RedisCoroutinesCommands<String, String>.del(vararg keys: RedisKey<*>): Long? {
+    if (keys.isEmpty()) return null
+    return this.del(*keys.map { it.key }.toTypedArray())
 }
