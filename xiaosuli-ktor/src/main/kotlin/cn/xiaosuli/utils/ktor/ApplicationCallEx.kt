@@ -30,31 +30,3 @@ inline fun <reified T> ApplicationCall.requestQueryParameters(): T {
         throw BadRequestException("缺少必要的查询参数或参数格式错误！")
     }
 }
-
-/**
- * 统一成功响应
- *
- * @param data 数据
- * @param httpStatus 状态码
- * @param message 提示信息
- */
-suspend inline fun <reified T> ApplicationCall.respondOk(
-    data: T? = null,
-    httpStatus: HttpCode = HttpCode.Success,
-    message: String? = null
-) {
-    respond(R.ok(data, httpStatus, message))
-}
-
-/**
- * 统一失败响应
- *
- * @param httpStatus 状态码
- * @param message 提示信息
- */
-suspend fun ApplicationCall.respondFail(
-    httpStatus: HttpCode,
-    message: String? = null
-) {
-    respond(R.fail(httpStatus, message))
-}
